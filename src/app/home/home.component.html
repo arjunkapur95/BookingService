@@ -1,0 +1,20 @@
+
+<div *ngIf="bookings.length > 0; else noList">
+<ul class = "bookings">
+  <li *ngFor = "let booking of bookings" style="list-style-type: none;">
+   <div *ngIf="booking.owner=='Joe'"> 
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{booking.owner}}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{booking.id}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
+</div>
+</li>
+</ul>  
+</div>
+<ng-template #noList>No list</ng-template>
