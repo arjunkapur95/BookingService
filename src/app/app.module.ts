@@ -5,13 +5,25 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTabsModule } from '@angular/material/tabs';
-import {MatButtonModule} from '@angular/material/button';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BookingDetailsComponent } from './booking-details/booking-details.component';
 import { BookingSearchComponent } from './booking-search/booking-search.component';
 import { BookingPageComponent } from './booking-page/booking-page.component';
+import { FormControl, 
+         Validators, 
+         ValidatorFn, 
+         AbstractControl } from '@angular/forms';
+import { FormsModule, 
+         ReactiveFormsModule, 
+         NgForm } from '@angular/forms';
+import { MatDatepickerModule,
+         MatNativeDateModule,
+         MatInputModule} from '@angular/material';
+import { MatFormFieldModule } from '@angular/material/form-field';
+//import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -21,17 +33,24 @@ import { BookingPageComponent } from './booking-page/booking-page.component';
     BookingDetailsComponent,
     BookingSearchComponent,
     BookingPageComponent
-  ],
+      ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatButtonModule,
     MatTabsModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
     AppRoutingModule,
-    MatExpansionModule
-  ],
-  providers: [],
+    MatExpansionModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatNativeDateModule,
+    MatInputModule,
+  //  HttpClientModule
+      ],
+  providers: [MatNativeDateModule,],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,15 @@
+.header-right {
+    padding: 5px 5px;
+}
+.example-container {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
+}
+
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442; /* red */
+}

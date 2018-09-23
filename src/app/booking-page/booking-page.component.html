@@ -1,3 +1,90 @@
-<p>
-  booking-page works!
-</p>
+<!-- <div ng-app="">
+<div class="example-container">
+
+    	<form>
+    		<mat-form-field>
+     <input matInput placeholder="Name" type="text" class = "form-control" id="name" required [(ngModel)]="model.name" name="name">
+ </mat-form-field>
+ 	<label for ="name">Name</label>
+	<input type = "text" class = "form-control" id="name" required >
+</form> 
+    TODO: remove this: {{model.name}}
+ 
+</div>
+
+<mat-form-field>
+  <input matInput [matDatepicker]="picker1" placeholder="Choose a start date" id="startDate" required>
+  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+  <mat-datepicker #picker1></mat-datepicker>
+</mat-form-field>
+
+<mat-form-field>
+  <input matInput [matDatepicker]="picker2" placeholder="Choose a end date" id="endDate" required>
+  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+  <mat-datepicker #picker2></mat-datepicker>
+</mat-form-field>
+
+<button type = "submit" class = "btn btn-success" (click)="onSubmit()">Book</button>
+
+</div>
+
+ -->
+<!-- 
+
+ <div class="container">
+  <div [hidden]="submitted">
+    <h1>Hero Form</h1>
+    <form (ngSubmit)="onSubmit()" #bookingForm="ngForm">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name"
+               required
+               [(ngModel)]="model.name" name="name"
+               #name="ngModel">
+        <div [hidden]="name.valid || name.pristine"
+             class="alert alert-danger">
+          Name is required
+        </div>
+      </div> 
+      <button type="submit" class="btn btn-success" [disabled]="!bookingForm.form.valid">Submit</button>
+    </form>
+  </div> -->
+
+<!--   <form #signupForm="ngForm" (ngSubmit)="registerUser(signupForm)">
+
+ -->
+<form name="signupForm" id="signupForm">
+     <div class ="form-group">  
+      <label for="name">Name</label>
+    <input name="test" id="name" type="text" class="form-control"  [(ngModel)]="request.name" required>
+
+<!--       <label for="id">id</label>
+    <input name="testid" id="id" type="text" class="form-control"  [(ngModel)]="request.id" required> -->
+    <div class ="form-group">
+      <label for="environment">Testing Environment </label> 
+      <select class = "form-control" id="environment" required [(ngModel)]="request.environment" name = "environment">
+        <option *ngFor="let env of environments" [value]="env">{{env}}</option>
+      </select>
+     </div>
+
+      <br>
+      <label for="startDate">Start Date</label>
+    <input name="startDate" id="startDate" type="date" class="form-control"  [(ngModel)]="request.startDate" required
+    (change)="updateDate()" min="{{today|date:'yyyy-MM-dd'}}">
+
+
+      <label for="endDate">End Date</label>
+    <input name="endDate" id="endDate" type="date" class="form-control"  [(ngModel)]="request.endDate" required 
+    min="{{minDate|date:'yyyy-MM-dd'}}">
+  </div>
+  <div class="form-group">
+  <button class = "btn btn-primary" type = "Submit" id="sendMessageButton" (click)="registerUser()">Submit</button>
+
+
+</div>
+  </form>
+
+  <div *ngIf="!submitted">
+    Please enter all values.
+  </div>  
+

@@ -2,16 +2,17 @@
 <div *ngIf="bookings.length > 0; else noList">
 <ul class = "bookings">
   <li *ngFor = "let booking of bookings" style="list-style-type: none;">
-   <div *ngIf="booking.owner=='Joe'"> 
+   <div *ngIf="booking.name=='Joe'"> 
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        {{booking.owner}}
+        {{booking.name}}
       </mat-panel-title>
       <mat-panel-description>
-        {{booking.id}}
+        {{booking.environment}}
       </mat-panel-description>
     </mat-expansion-panel-header>
+    {{booking.startDate| date:'dd/MM/yyyy'}} - {{booking.endDate|date:'dd/MM/yyyy'}}
   </mat-expansion-panel>
 </div>
 </li>

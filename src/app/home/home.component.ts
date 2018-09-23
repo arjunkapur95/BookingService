@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Booking } from '../booking';
 import { BOOKINGS } from '../mock-booking';
+import { BookingService } from '../booking.service';
 
 @Component({
   selector: 'app-home',
@@ -9,11 +10,16 @@ import { BOOKINGS } from '../mock-booking';
 })
 
 export class HomeComponent implements OnInit {
-  bookings = BOOKINGS;
+  bookings: Booking[];
    
-  constructor() { }
+  constructor(private bookingServce: BookingService) { }
 
   ngOnInit() {
+  	this.getBookings();
+  }
 
+  getBookings(): void{
+  	this.bookingServce.getBookings()
+  		.subscribe(bookings=>this.bookings=bookings);
   }
 }

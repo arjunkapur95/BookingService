@@ -1,6 +1,8 @@
 export class Booking{
-//	start: Date;
-//	end: Date;
-	owner: string;
-	id: number;
+	constructor(
+	public startDate: Date,
+	public endDate: Date,
+	public name: string,
+	public environment: string,
+	){}
 }
