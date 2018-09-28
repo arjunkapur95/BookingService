@@ -3,6 +3,8 @@ import { Booking } from '../booking';
 import { BOOKINGS } from '../mock-booking';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { BookingService } from '../booking.service';
+import {Observable} from 'rxjs';
+
 
 @Component({
   selector: 'app-booking-page',
@@ -17,12 +19,14 @@ export class BookingPageComponent implements OnInit {
   request: Booking = new Booking(this.minDate,this.minDate,"","");
   environments=['Dev','Test','SIT','UAT','Prod'];
   today = new Date();
-   validBooking = true;
-
-  constructor(private bookingServce: BookingService) { }
+  temp = true;
+  bookings : Observable<any[]>;
+  val: any[];
+  constructor(private bookingService: BookingService) { }
 
   contructor(http: Http){
      this.request={} as any;
+
    }
 
    
@@ -34,40 +38,40 @@ export class BookingPageComponent implements OnInit {
       console.log("test");
       this.submitted = false;
     } else {
-      // //Converts the date input into a date variable
-      // var parts = this.request.startDate.match(/(\d+)/g);
-      // var tempStart = new Date(parts[0], parts[1]-1, parts[2]);
-      // parts = this.request.endDate.match(/(\d+)/g);
-      // var tempEnd = new Date(parts[0], parts[1]-1, parts[2]);
+            console.log(this.temp);
+            var booked = true;
+            const tempStart = new Date(this.request.startDate);
+            const tempEnd = new Date(this.request.endDate);
 
-
-      // //Checks against the list of known dates
-      // for(var b of BOOKINGS){
-      //   if((tempStart.getTime()>b.startDate.getTime()&&tempStart.getTime()<b.endDate.getTime())||
-      //   (tempEnd.getTime()>b.startDate.getTime()&&tempEnd.getTime()<b.endDate.getTime())){
-      //   //   console.log(this.request.environment);
-      //   // console.log(b.environment);
-      //   //   if(this.request.environment==b.environment){
-      //   //     validBooking=false;
-      //   //   }  
-      //     if(this.request.environment==b.environment){
-      //       validBooking=false;
-      //     }
-      //   } 
-      // }
-
-      // 
-      //Confirms validity of booking
-      this.bookingServce.checkAvaliability(this.request).subscribe(validBooking=>this.validBooking=validBooking);
-
-      if(this.validBooking){
-        console.log("Booking is legal.");
-      } else {
-        console.log("Booking is illegal");
+            this.bookingService.getBookingsByEnviroment(this.request.environment).subscribe(b =>{
+                if(this.temp){
+                                for(var i=0;i<b.length;i++){
+                                  console.log("Testing for ...... "+b[i].name);
+                                  const start = new Date(b[i].startDate.seconds*1000);
+                                  const end = new Date(b[i].endDate.seconds*1000);
+                                  if(tempStart.getTime()>=start.getTime() && tempStart.getTime()<=end.getTime() 
+                                    || tempEnd.getTime()>=start.getTime() && tempEnd.getTime()<=end.getTime()
+                                    ||tempStart.getTime()<=start.getTime() && tempEnd.getTime()>=start.getTime() ){
+                                    booked = false;
+                                    console.log(b[i].name+"      "+b[i].environment);
+                                    i=b.length;
+                                  }
+                              }
+                               
+                              if(booked){
+                                console.log("Making booking");
+                                this.bookingService.makeBooking(this.request.name,this.request.environment,tempStart,tempEnd);
+                                this.temp=false;
+                              } else {
+                                console.log("Failed");
+                              }
+                            }})
       }
-    }
-  }
-
+    }  
+  
+  makeBooking(){
+    console.log("Make booking");
+  }  
 
   updateDate(){
         // var parts = this.request.startDate.match(/(\d+)/g);

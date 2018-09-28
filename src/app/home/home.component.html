@@ -1,8 +1,8 @@
 
-<div *ngIf="bookings.length > 0; else noList">
-<ul class = "bookings">
+<!-- <div *ngIf="bookings.length > 0; else noList">
+ -->
+  <ul class = "bookings">
   <li *ngFor = "let booking of bookings" style="list-style-type: none;">
-   <div *ngIf="booking.name=='Joe'"> 
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -12,10 +12,9 @@
         {{booking.environment}}
       </mat-panel-description>
     </mat-expansion-panel-header>
-    {{booking.startDate| date:'dd/MM/yyyy'}} - {{booking.endDate|date:'dd/MM/yyyy'}}
+    {{booking.startDate| date: 'dd/MM/yyyy'}} - {{booking.endDate| date: 'dd/MM/yyyy'}}
   </mat-expansion-panel>
-</div>
 </li>
 </ul>  
-</div>
+<!-- </div> -->
 <ng-template #noList>No list</ng-template>

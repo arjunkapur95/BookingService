@@ -10,8 +10,8 @@ import { BookingService } from '../booking.service';
 })
 
 export class HomeComponent implements OnInit {
-  bookings: Booking[];
-   
+  bookings: any[];
+  test : boolean = true;
   constructor(private bookingServce: BookingService) { }
 
   ngOnInit() {
@@ -19,7 +19,18 @@ export class HomeComponent implements OnInit {
   }
 
   getBookings(): void{
-  	this.bookingServce.getBookings()
-  		.subscribe(bookings=>this.bookings=bookings);
+  	this.bookingServce.getBookingsByName('Test2')
+  		.subscribe(b =>{
+        this.bookings=b;
+        for(var i=0;i<b.length;i++){
+          this.temp();
+          b[i].endDate = new Date(b[i].endDate.seconds*1000);
+          b[i].startDate = new Date(b[i].startDate.seconds*1000);
+      }  
+  })
+  }
+
+  temp(){
+    console.log(this.test);
   }
 }
