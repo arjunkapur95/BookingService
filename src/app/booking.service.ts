@@ -18,14 +18,21 @@ export class BookingService {
   	return of(BOOKINGS);
   }
 
+  // getBookingsByName(name: string): Observable<any[]>{
+  //   return  this.db.collection('/items',ref=>ref.where('name','==',name).orderBy('startDate')).valueChanges();
+  // }
   getBookingsByName(name: string): Observable<any[]>{
-    return  this.db.collection('/items',ref=>ref.where('name','==',name).orderBy('startDate')).valueChanges();
+    return  this.db.collection(name,ref=>ref.where('name','==',name).orderBy('startDate')).valueChanges();
   }
 
   getBookingsByEnviroment(env: string): Observable<any[]>{
+
     return  this.db.collection('/items',ref=>ref.where('environment','==',env)).valueChanges();
   }
-
+  deleteBooking(name:string,env: string, start: Date, end: Date){
+    console.log(name+env+start.getTime()+start.getTime());
+    this.db.collection(name).doc(name+env+start.getTime()+start.getTime()).delete();
+  }
   makeBooking(name :string, env: string, start: Date, end: Date){
       var data = {
       startDate: start,
@@ -33,8 +40,30 @@ export class BookingService {
       name: name,
       environment: env,
     };
-    var setDoc = this.db.collection('/items').doc(name).set(data);
+    var docName = name+env+start.getTime()+start.getTime();
+    var setDoc = this.db.collection(name).doc(docName).set(data);
   }
+
+  // getNextCount(name :string){
+  //   var docRef = this.db.collection(name).doc('NextBooking');
+  //   var getDoc = docRef.ref.get()
+  //   .then(doc => {
+  //     if (!doc.exists) {
+  //       console.log('No such document!');
+  //       this.db.collection(name).doc('NextBooking').set({counter: 2});
+  //       return 1;
+  //     } else {
+  //       console.log('Document data:', doc.data().counter);
+  //       var temp = doc.data().counter;
+  //       return temp;
+  //       temp++;
+  //       this.db.collection(name).doc('NextBooking').set({counter: temp});
+  //     }
+  //   })
+  //   .catch(err => {
+  //     console.log('Error getting document', err);
+  //   });
+  // }
 
   checkAvaliability(curr: Booking): Observable<boolean>{
 

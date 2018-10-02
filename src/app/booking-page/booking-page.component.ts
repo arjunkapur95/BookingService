@@ -39,45 +39,40 @@ export class BookingPageComponent implements OnInit {
       this.submitted = false;
     } else {
             console.log(this.temp);
-            var booked = true;
+            var notBooked = true;
             const tempStart = new Date(this.request.startDate);
             const tempEnd = new Date(this.request.endDate);
 
             this.bookingService.getBookingsByEnviroment(this.request.environment).subscribe(b =>{
                 if(this.temp){
-                                for(var i=0;i<b.length;i++){
-                                  console.log("Testing for ...... "+b[i].name);
-                                  const start = new Date(b[i].startDate.seconds*1000);
-                                  const end = new Date(b[i].endDate.seconds*1000);
-                                  if(tempStart.getTime()>=start.getTime() && tempStart.getTime()<=end.getTime() 
-                                    || tempEnd.getTime()>=start.getTime() && tempEnd.getTime()<=end.getTime()
-                                    ||tempStart.getTime()<=start.getTime() && tempEnd.getTime()>=start.getTime() ){
-                                    booked = false;
-                                    console.log(b[i].name+"      "+b[i].environment);
-                                    i=b.length;
-                                  }
-                              }
+                  for(var i=0;i<b.length;i++){
+                    console.log("Testing for ...... "+b[i].name);
+                    const start = new Date(b[i].startDate.seconds*1000);
+                    const end = new Date(b[i].endDate.seconds*1000);
+                    if(tempStart.getTime()>=start.getTime() && tempStart.getTime()<=end.getTime() 
+                    || tempEnd.getTime()>=start.getTime() && tempEnd.getTime()<=end.getTime()
+                    ||tempStart.getTime()<=start.getTime() && tempEnd.getTime()>=start.getTime() ){
+                      notBooked = false;
+                      i=b.length;
+                    }
+                  }
                                
-                              if(booked){
-                                console.log("Making booking");
-                                this.bookingService.makeBooking(this.request.name,this.request.environment,tempStart,tempEnd);
-                                this.temp=false;
-                              } else {
-                                console.log("Failed");
-                              }
-                            }})
+                  if(notBooked){
+                    console.log("Making booking");
+                    this.bookingService.makeBooking(this.request.name,this.request.environment,tempStart,tempEnd);
+                    this.temp=false;
+                  } else {
+                    console.log("Failed");
+                    this.temp=true;
+                  }
+                }
+            })
       }
     }  
   
-  makeBooking(){
-    console.log("Make booking");
-  }  
 
   updateDate(){
-        // var parts = this.request.startDate.match(/(\d+)/g);
-        // var tempStart = new Date(parts[0], parts[1]-1, parts[2]);
         const tempStart: Date = new Date(this.request.startDate);
-
         tempStart.setDate(tempStart.getDate()+1);
         this.minDate = tempStart;
   }

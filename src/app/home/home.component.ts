@@ -11,26 +11,34 @@ import { BookingService } from '../booking.service';
 
 export class HomeComponent implements OnInit {
   bookings: any[];
+  tempBookings:any[];
   test : boolean = true;
-  constructor(private bookingServce: BookingService) { }
-
+  constructor(private bookingService: BookingService) { }
+  today: Date;
   ngOnInit() {
   	this.getBookings();
+    const tempDate = new Date();
+    this.today = new Date(tempDate.getFullYear(),tempDate.getMonth(),tempDate.getDate()));
   }
 
+  // Returns the bookings of a given user and displays the active bookings
   getBookings(): void{
-  	this.bookingServce.getBookingsByName('Test2')
+  	this.bookingService.getBookingsByName('Robert')
   		.subscribe(b =>{
         this.bookings=b;
         for(var i=0;i<b.length;i++){
-          this.temp();
           b[i].endDate = new Date(b[i].endDate.seconds*1000);
           b[i].startDate = new Date(b[i].startDate.seconds*1000);
+          if(b[i].endDate.getTime()<this.today.getTime()){
+            b.splice(i,1);
+            i--;
+          }
       }  
   })
   }
 
-  temp(){
-    console.log(this.test);
+  delete(name:string,env:string, start:Date,end:Date){
+    this.bookingService.deleteBooking(name,env,start,end);
   }
+
 }
