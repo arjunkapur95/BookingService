@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Booking } from '../booking';
-import { BOOKINGS } from '../mock-booking';
 import { BookingService } from '../booking.service';
 
 @Component({
@@ -18,12 +17,12 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   	this.getBookings();
     const tempDate = new Date();
-    this.today = new Date(tempDate.getFullYear(),tempDate.getMonth(),tempDate.getDate()));
+      this.today = new Date(tempDate.getFullYear(),tempDate.getMonth(),tempDate.getDate());
   }
 
   // Returns the bookings of a given user and displays the active bookings
   getBookings(): void{
-  	this.bookingService.getBookingsByName('Robert')
+  	this.bookingService.getBookingsByName('Emily')
   		.subscribe(b =>{
         this.bookings=b;
         for(var i=0;i<b.length;i++){
@@ -32,8 +31,19 @@ export class HomeComponent implements OnInit {
           if(b[i].endDate.getTime()<this.today.getTime()){
             b.splice(i,1);
             i--;
+            }
+        }  
+        for(var j=0;j<b.length-1;j++){
+          console.log("j is "+j);
+          for(var i=0;i<b.length-1-j;i++){
+            if(b[i].startDate.getTime()>b[i+1].startDate.getTime()){
+               console.log("Swap"); 
+               var temp=b[i+1];
+               b[i+1]=b[i];
+               b[i] = temp;
+            }  
           }
-      }  
+        }
   })
   }
 

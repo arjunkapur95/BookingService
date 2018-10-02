@@ -2,13 +2,24 @@
 
      <div class ="form-group">  
       <label for="name">Name</label>
-    <input name="test" id="name" type="text" class="form-control"  [(ngModel)]="request.name" required>
-    <div class ="form-group">
-      <label for="environment">Testing Environment </label> 
+        <input name="test" id="name" type="text" class="form-control"  [(ngModel)]="request.name" required>
+      <div class ="form-group">
+
+    <label for="environment">Testing Environment </label> 
       <select class = "form-control" id="environment" required [(ngModel)]="request.environment" name = "environment">
         <option *ngFor="let env of environments" [value]="env">{{env}}</option>
       </select>
      </div>
+
+
+
+
+
+
+
+
+
+
 
       <br>
       <label for="startDate">Start Date</label>
