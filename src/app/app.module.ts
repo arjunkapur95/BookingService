@@ -26,6 +26,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment'
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -52,7 +53,8 @@ import { environment } from '../environments/environment'
     MatNativeDateModule,
     MatInputModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    NgbModule.forRoot()
 ],
   providers: [MatNativeDateModule,],
   bootstrap: [AppComponent]

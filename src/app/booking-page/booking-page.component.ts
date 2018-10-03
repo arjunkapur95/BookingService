@@ -4,6 +4,8 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { BookingService } from '../booking.service';
 import {Observable} from 'rxjs';
 
+import {NgbDateStruct, NgbCalendar, NgbDate} from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
   selector: 'app-booking-page',
   templateUrl: './booking-page.component.html',
@@ -14,19 +16,23 @@ export class BookingPageComponent implements OnInit {
   validBooking = true;
   submitted = true; 
   minDate = new Date();
-  request: Booking = new Booking(this.minDate,this.minDate,"","");
+  request = {} as any;
   environments=['Dev','Test','SIT','UAT','Prod'];
   today = new Date();
   temp = true;
-  bookings : Observable<any[]>;
-  val: any[];
-  constructor(private bookingService: BookingService) { }
 
-  contructor(http: Http){
-     this.request={} as any;
+  //NgbCalendar
+  model: NgbDateStruct;
+  date: {year: number, month: number};
+  hoveredDate: NgbDate;
+  fromDate: NgbDate;
+  toDate: NgbDate;
+
+  constructor(private bookingService: BookingService, private calendar: NgbCalendar, ) {
+    this.fromDate = calendar.getToday();
+    this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
 
    }
-
    
   async registerUser() {
     if(this.request.startDate == this.minDate ||
@@ -41,16 +47,9 @@ export class BookingPageComponent implements OnInit {
 
       this.bookingService.getBookingsByEnviroment(this.request.environment).subscribe(b =>{
       if(this.temp){
-        console.log("Test");
-        console.log(b.length);
         for(var i=0;i<b.length;i++){
-        console.log("Testing for ...... "+b[i].name);
         const start = new Date(b[i].startDate.seconds*1000);
         const end = new Date(b[i].endDate.seconds*1000);
-        console.log(tempStart.getTime());
-        console.log(tempEnd.getTime());
-        console.log(start.getTime());
-        console.log(end.getTime());
         if(tempStart.getTime()>=start.getTime() && tempStart.getTime()<=end.getTime() 
         || tempEnd.getTime()>=start.getTime() && tempEnd.getTime()<=end.getTime()
         ||tempStart.getTime()<=start.getTime() && tempEnd.getTime()>=start.getTime() ){
@@ -70,7 +69,6 @@ export class BookingPageComponent implements OnInit {
           this.validBooking=false;
         }
       }
-      this.temp = true;
     })
 
   }
@@ -84,4 +82,36 @@ export class BookingPageComponent implements OnInit {
   ngOnInit() {
   }
 
+
+
+  //Ngbcalendar stuff
+
+  
+  onDateSelection(date: NgbDate) {
+    if (!this.fromDate && !this.toDate) {
+      this.fromDate = date;
+    } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
+      this.toDate = date;
+    } else {
+      this.toDate = null;
+      this.fromDate = date;
+    }
+  }
+  isHovered(date: NgbDate) {
+    return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
+  }
+
+  isInside(date: NgbDate) {
+    return date.after(this.fromDate) && date.before(this.toDate);
+  }
+
+  isRange(date: NgbDate) {
+    return date.equals(this.fromDate) || date.equals(this.toDate) || this.isInside(date) || this.isHovered(date);
+  }
+
+
+  isDisabled(date: NgbDateStruct) {
+    const d = new Date(date.year, date.month - 1, date.day);
+    return date.day==10 || d.getDay() === 0 || d.getDay() === 6;
+  }
 }

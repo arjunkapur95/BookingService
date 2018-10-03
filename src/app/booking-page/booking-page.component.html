@@ -43,3 +43,29 @@
   </div>  
   <div *ngIf="!validBooking">Booking unavaliable</div>
 
+
+
+
+
+<p>Example of the range selection</p>
+
+<ngb-datepicker #dp (select)="onDateSelection($event)"
+[displayMonths]="1" 
+[dayTemplate]="t"
+[markDisabled]="isDisabled"
+[outsideDays]="hidden">
+</ngb-datepicker>
+
+<ng-template #t let-date="date" let-focused="focused" let-disabled="disabled">
+  <span class="custom-day"
+        [class.disabled]="disabled"
+        [class.focused]="focused"
+        [class.range]="isRange(date)"
+        [class.faded]="isHovered(date) || isInside(date)"
+        (mouseenter)="hoveredDate = date"
+
+        (mouseleave)="hoveredDate = null">
+    {{ date.day }}
+  </span>
+</ng-template>
+
