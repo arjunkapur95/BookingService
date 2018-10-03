@@ -11,7 +11,7 @@ import {NgbDateStruct, NgbCalendar, NgbDate} from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './booking-page.component.html',
   styleUrls: ['./booking-page.component.css']
 })
-export class BookingPageComponent implements OnInit {
+export class BookingPageComponent implements OnInit{
 
   validBooking = true;
   submitted = true; 
@@ -20,6 +20,7 @@ export class BookingPageComponent implements OnInit {
   environments=['Dev','Test','SIT','UAT','Prod'];
   today = new Date();
   temp = true;
+  testBookings = [];
 
   //NgbCalendar
   model: NgbDateStruct;
@@ -30,7 +31,7 @@ export class BookingPageComponent implements OnInit {
 
   constructor(private bookingService: BookingService, private calendar: NgbCalendar, ) {
     this.fromDate = calendar.getToday();
-    this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
+    this.toDate = calendar.getNext(calendar.getToday(), 'd', 1);
 
    }
    
@@ -82,6 +83,20 @@ export class BookingPageComponent implements OnInit {
   ngOnInit() {
   }
 
+  envChanged(){
+    this.testBookings=[];
+    this.bookingService.getBookingsByEnviroment(this.request.environment).subscribe(b=>{
+      for(var i=0;i<b.length;i++){
+
+        const start = new Date(b[i].startDate.seconds*1000);
+        start.setHours(0);
+        const end = new Date(b[i].endDate.seconds*1000);
+        end.setHours(0);
+        this.testBookings.push(start);
+        this.testBookings.push(end);
+        }
+    });  
+  }
 
 
   //Ngbcalendar stuff
@@ -109,9 +124,13 @@ export class BookingPageComponent implements OnInit {
     return date.equals(this.fromDate) || date.equals(this.toDate) || this.isInside(date) || this.isHovered(date);
   }
 
+  isBooked(date: NgbDate){
+  var tempDate = new Date(date.year,date.month-1,date.day);
 
-  isDisabled(date: NgbDateStruct) {
-    const d = new Date(date.year, date.month - 1, date.day);
-    return date.day==10 || d.getDay() === 0 || d.getDay() === 6;
+  for(var i=0;i<this.testBookings.length;i=i+2){
+      if(tempDate.getTime()>=this.testBookings[i].getTime()&&tempDate.getTime()<=this.testBookings[i+1].getTime()){
+        return true;
+      }
+  }
   }
 }
