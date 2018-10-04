@@ -32,19 +32,19 @@ export class BookingPageComponent implements OnInit{
   constructor(private bookingService: BookingService, private calendar: NgbCalendar, ) {
     this.fromDate = calendar.getToday();
     this.toDate = calendar.getNext(calendar.getToday(), 'd', 1);
+    this.request.environment="";
+    this.request.name="";
 
    }
    
-  async registerUser() {
-    if(this.request.startDate == this.minDate ||
-      this.request.endDate == this.minDate ||
-      this.request.environment==""||
+  makeBooking() {
+    if(this.request.environment==""||
       this.request.name==""){
       this.submitted = false;
     } else {
       var notBooked = true;
-      const tempStart = new Date(this.request.startDate);
-      const tempEnd = new Date(this.request.endDate);
+      const tempStart = new Date(this.fromDate.year,this.fromDate.month-1,this.fromDate.day);
+      const tempEnd = new Date(this.toDate.year,this.toDate.month-1,this.toDate.day);
 
       this.bookingService.getBookingsByEnviroment(this.request.environment).subscribe(b =>{
       if(this.temp){
@@ -80,6 +80,7 @@ export class BookingPageComponent implements OnInit{
         tempStart.setDate(tempStart.getDate()+1);
         this.minDate = tempStart;
   }
+
   ngOnInit() {
   }
 
@@ -107,6 +108,9 @@ export class BookingPageComponent implements OnInit{
       this.fromDate = date;
     } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
       this.toDate = date;
+    } else if (this.fromDate && !this.toDate && date.equals(this.fromDate)){
+      this.toDate = date; 
+      console.log("test");
     } else {
       this.toDate = null;
       this.fromDate = date;

@@ -7,7 +7,6 @@ import { AngularFirestore } from 'angularfire2/firestore'
   providedIn: 'root'
 })
 export class BookingService {
-  private booked;
   private db;
   constructor(dbTemp: AngularFirestore) { 
       this.db = dbTemp;

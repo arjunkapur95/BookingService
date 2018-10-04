@@ -34,10 +34,8 @@ export class HomeComponent implements OnInit {
             }
         }  
         for(var j=0;j<b.length-1;j++){
-          console.log("j is "+j);
           for(var i=0;i<b.length-1-j;i++){
             if(b[i].startDate.getTime()>b[i+1].startDate.getTime()){
-               console.log("Swap"); 
                var temp=b[i+1];
                b[i+1]=b[i];
                b[i] = temp;

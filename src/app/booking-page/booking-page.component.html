@@ -6,38 +6,25 @@
       <div class ="form-group">
 
     <label for="environment">Testing Environment </label> 
-      <select class = "form-control" id="environment" required [(ngModel)]="request.environment" name = "environment" (change)="envChanged()">
+      <select class = "form-control" id="environment" required [(ngModel)]="request.environment" name = "environment" 
+      (change)="envChanged()">
         <option *ngFor="let env of environments" [value]="env">{{env}}</option>
       </select>
      </div>
 
       <br>
-      <label for="startDate">Start Date</label>
-    <input name="startDate" id="startDate" type="date" class="form-control"  [(ngModel)]="request.startDate" required
-    (change)="updateDate()" min="{{today|date:'yyyy-MM-dd'}}">
-
-
-      <label for="endDate">End Date</label>
-    <input name="endDate" id="endDate" type="date" class="form-control"  [(ngModel)]="request.endDate" required 
-    min="{{minDate|date:'yyyy-MM-dd'}}">
-  </div>
-  <div class="form-group">
-  <button class = "btn btn-primary" type = "Submit" id="sendMessageButton" (click)="registerUser()">Submit</button>
-
-
-</div>
-  </form>
-
-  <div *ngIf="!submitted">
-    Please enter all values.
-  </div>  
-  <div *ngIf="!validBooking">Booking unavaliable</div>
 
 
 
 
 
-<p>Example of the range selection</p>
+
+
+
+
+
+
+
 
 <ngb-datepicker #dp (select)="onDateSelection($event)"
 [displayMonths]="1" 
@@ -62,3 +49,22 @@
   </span>
 </ng-template>
 
+
+
+
+
+
+
+
+  </div>
+  <div class="form-group">
+  <button class = "btn btn-primary" type = "Submit" id="sendMessageButton" (click)="makeBooking()">Submit</button>
+
+
+</div>
+  </form>
+
+  <div *ngIf="!submitted">
+    Please enter all values.
+  </div>  
+  <div *ngIf="!validBooking">Booking unavaliable</div>

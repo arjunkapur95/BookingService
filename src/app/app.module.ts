@@ -9,8 +9,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
-import { BookingDetailsComponent } from './booking-details/booking-details.component';
-import { BookingSearchComponent } from './booking-search/booking-search.component';
 import { BookingPageComponent } from './booking-page/booking-page.component';
 import { FormControl, 
          Validators, 
@@ -22,7 +20,8 @@ import { FormsModule,
 import { MatDatepickerModule,
          MatNativeDateModule,
          MatInputModule} from '@angular/material';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field'
+;
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment'
@@ -34,8 +33,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   declarations: [
     AppComponent,
     HomeComponent,
-    BookingDetailsComponent,
-    BookingSearchComponent,
     BookingPageComponent
       ],
   imports: [

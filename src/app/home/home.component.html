@@ -13,7 +13,7 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
     {{booking.startDate| date: 'dd/MM/yyyy'}} - {{booking.endDate| date: 'dd/MM/yyyy'}}
-    <button (click)="delete(booking.name,booking.environment,booking.startDate,booking.endDate)">Cancel Booking</button>
+    <a mat-raised-button (click)="delete(booking.name,booking.environment,booking.startDate,booking.endDate)">Cancel Booking</a>
   </mat-expansion-panel>
 </li>
 </ul>  
