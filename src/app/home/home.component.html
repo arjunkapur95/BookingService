@@ -13,9 +13,14 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
     {{booking.startDate| date: 'dd/MM/yyyy'}} - {{booking.endDate| date: 'dd/MM/yyyy'}}
-    <a mat-raised-button (click)="delete(booking.name,booking.environment,booking.startDate,booking.endDate)">Cancel Booking</a>
+    <button mat-raised-button (click)="openBottomSheet(booking.name,booking.environment,booking.startDate,booking.endDate)">Cancel Booking</button>
   </mat-expansion-panel>
 </li>
 </ul>  
 <!-- </div> -->
 <ng-template #noList>No list</ng-template>
+
+
+
+
+

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Booking } from './booking';
 import {Observable, of} from 'rxjs';
 import { AngularFirestore } from 'angularfire2/firestore'
 

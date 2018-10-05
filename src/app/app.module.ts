@@ -7,25 +7,26 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent, DeleteConfirmation } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BookingPageComponent } from './booking-page/booking-page.component';
 import { FormControl, 
          Validators, 
          ValidatorFn, 
-         AbstractControl } from '@angular/forms';
-import { FormsModule, 
+         AbstractControl,
+         FormsModule, 
          ReactiveFormsModule, 
-         NgForm } from '@angular/forms';
+         NgForm  } from '@angular/forms';
 import { MatDatepickerModule,
          MatNativeDateModule,
          MatInputModule} from '@angular/material';
-import { MatFormFieldModule } from '@angular/material/form-field'
-;
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import {MatListModule} from '@angular/material/list';
 
 
 
@@ -33,7 +34,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   declarations: [
     AppComponent,
     HomeComponent,
-    BookingPageComponent
+    BookingPageComponent,
+    DeleteConfirmation
       ],
   imports: [
     BrowserModule,
@@ -49,11 +51,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     MatNativeDateModule,
     MatInputModule,
+    MatBottomSheetModule,
+    MatListModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     NgbModule.forRoot()
 ],
   providers: [MatNativeDateModule,],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [HomeComponent,DeleteConfirmation]
 })
 export class AppModule { }

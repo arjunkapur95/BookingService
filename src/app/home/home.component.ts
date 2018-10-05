@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Booking } from '../booking';
 import { BookingService } from '../booking.service';
+import {MatBottomSheet, MatBottomSheetRef,MAT_BOTTOM_SHEET_DATA} from '@angular/material';
 
 @Component({
   selector: 'app-home',
@@ -9,11 +9,13 @@ import { BookingService } from '../booking.service';
 })
 
 export class HomeComponent implements OnInit {
+
+  constructor(private bookingService: BookingService,private bottomSheet: MatBottomSheet) { }
   bookings: any[];
   tempBookings:any[];
   test : boolean = true;
-  constructor(private bookingService: BookingService) { }
   today: Date;
+
   ngOnInit() {
   	this.getBookings();
     const tempDate = new Date();
@@ -22,7 +24,7 @@ export class HomeComponent implements OnInit {
 
   // Returns the bookings of a given user and displays the active bookings
   getBookings(): void{
-  	this.bookingService.getBookingsByName('Emily')
+  	this.bookingService.getBookingsByName('Arjun')
   		.subscribe(b =>{
         this.bookings=b;
         for(var i=0;i<b.length;i++){
@@ -49,4 +51,35 @@ export class HomeComponent implements OnInit {
     this.bookingService.deleteBooking(name,env,start,end);
   }
 
+
+  openBottomSheet(name:string,env:string, start:Date,end:Date): void {
+    var temp = name+env+start+end;
+    const sheetRef = this.bottomSheet.open(DeleteConfirmation);
+    sheetRef.afterDismissed().subscribe(result=>{
+      if(result != null){
+        if(result.delete){
+                this.delete(name,env,start,end);
+        }
+      }      
+    })
+  }
+
+}
+
+@Component({
+  selector: 'delete-confirmation',
+  templateUrl: 'delete-confirmation.html',
+
+})
+export class DeleteConfirmation {
+  constructor(private bottomSheetRef: MatBottomSheetRef<DeleteConfirmation>) {}
+
+  deleteBooking(event: MouseEvent): void{
+    this.bottomSheetRef.dismiss({delete:true});
+    event.preventDefault();
+   }
+     doNothing(event: MouseEvent): void{
+    this.bottomSheetRef.dismiss({delete:false});
+    event.preventDefault();
+   }
 }

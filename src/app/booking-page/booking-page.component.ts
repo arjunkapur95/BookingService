@@ -88,7 +88,6 @@ export class BookingPageComponent implements OnInit{
     this.testBookings=[];
     this.bookingService.getBookingsByEnviroment(this.request.environment).subscribe(b=>{
       for(var i=0;i<b.length;i++){
-
         const start = new Date(b[i].startDate.seconds*1000);
         start.setHours(0);
         const end = new Date(b[i].endDate.seconds*1000);
@@ -115,6 +114,7 @@ export class BookingPageComponent implements OnInit{
       this.toDate = null;
       this.fromDate = date;
     }
+    console.log("test");
   }
   isHovered(date: NgbDate) {
     return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
