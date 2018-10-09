@@ -1,38 +1,25 @@
 <form name="signupForm" id="signupForm">
 
      <div class ="form-group">  
-      <label for="name">Name</label>
-        <input name="test" id="name" type="text" class="form-control"  [(ngModel)]="request.name" required>
-      <div class ="form-group">
+
 
     <label for="environment">Testing Environment </label> 
       <select class = "form-control" id="environment" required [(ngModel)]="request.environment" name = "environment" 
       (change)="envChanged()">
         <option *ngFor="let env of environments" [value]="env">{{env}}</option>
       </select>
-     </div>
 
       <br>
-
-
-
-
-
-
-
-
-
-
-
-
-
 <ngb-datepicker #dp (select)="onDateSelection($event)"
 [displayMonths]="1" 
 [dayTemplate]="t"
+[minDate]="minDate"
+style = "height: 400px; width: 400px"
+
 [markDisabled]="isDisabled">
 </ngb-datepicker>
-
 <ng-template #t let-date="date"
+ class = "test"
  let-focused="focused"
  let-currentMonth="currentMonth">
   <span class="custom-day"

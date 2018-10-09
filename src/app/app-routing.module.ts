@@ -3,9 +3,15 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './home/home.component';
 import { BookingPageComponent } from './booking-page/booking-page.component';
+import { LoginComponent } from './login/login.component'
+import { SignupComponent } from './signup/signup.component';
+import {AuthGuard} from './core/auth.guard';
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'booking', component: BookingPageComponent}
+  { path: '', component: LoginComponent },
+  { path:'signup',component:SignupComponent},
+  { path: 'home', component: HomeComponent, canActivate:[AuthGuard]},
+
+  { path: 'booking', component: BookingPageComponent,canActivate:[AuthGuard]}
 ];
 
 @NgModule({

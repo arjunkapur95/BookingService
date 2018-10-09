@@ -3,8 +3,8 @@ import { Booking } from '../booking';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { BookingService } from '../booking.service';
 import {Observable} from 'rxjs';
-
 import {NgbDateStruct, NgbCalendar, NgbDate} from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from '../core/auth.service';
 
 @Component({
   selector: 'app-booking-page',
@@ -21,6 +21,7 @@ export class BookingPageComponent implements OnInit{
   today = new Date();
   temp = true;
   testBookings = [];
+  bookingOwner=[];
 
   //NgbCalendar
   model: NgbDateStruct;
@@ -29,11 +30,13 @@ export class BookingPageComponent implements OnInit{
   fromDate: NgbDate;
   toDate: NgbDate;
 
-  constructor(private bookingService: BookingService, private calendar: NgbCalendar, ) {
+  constructor(private bookingService: BookingService, private calendar: NgbCalendar,
+    private authService:AuthService ) {
     this.fromDate = calendar.getToday();
     this.toDate = calendar.getNext(calendar.getToday(), 'd', 1);
     this.request.environment="";
-    this.request.name="";
+    this.request.name=this.authService.currentUserName;
+    console.log(this.request.name);
 
    }
    
@@ -75,11 +78,6 @@ export class BookingPageComponent implements OnInit{
   }
   }  
 
-  updateDate(){
-        const tempStart: Date = new Date(this.request.startDate);
-        tempStart.setDate(tempStart.getDate()+1);
-        this.minDate = tempStart;
-  }
 
   ngOnInit() {
   }
@@ -94,6 +92,7 @@ export class BookingPageComponent implements OnInit{
         end.setHours(0);
         this.testBookings.push(start);
         this.testBookings.push(end);
+        this.bookingOwner.push(b[i].name);
         }
     });  
   }
@@ -112,10 +111,14 @@ export class BookingPageComponent implements OnInit{
       console.log("test");
     } else {
       this.toDate = null;
-      this.fromDate = date;
+      this.fromDate = date;  
     }
-    console.log("test");
+    this.getBookingOwner(date);
   }
+
+  
+
+
   isHovered(date: NgbDate) {
     return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
   }
@@ -129,12 +132,26 @@ export class BookingPageComponent implements OnInit{
   }
 
   isBooked(date: NgbDate){
+    var tempDate = new Date(date.year,date.month-1,date.day);
+
+    for(var i=0;i<this.testBookings.length;i=i+2){
+        if(tempDate.getTime()>=this.testBookings[i].getTime()&&tempDate.getTime()<=this.testBookings[i+1].getTime()){
+          return true;
+        }
+    }
+  }
+
+  getBookingOwner(date: NgbDate){
   var tempDate = new Date(date.year,date.month-1,date.day);
 
-  for(var i=0;i<this.testBookings.length;i=i+2){
-      if(tempDate.getTime()>=this.testBookings[i].getTime()&&tempDate.getTime()<=this.testBookings[i+1].getTime()){
-        return true;
-      }
-  }
+    for(var i=0;i<this.testBookings.length;i=i+2){
+        if(tempDate.getTime()>=this.testBookings[i].getTime()&&tempDate.getTime()<=this.testBookings[i+1].getTime()){
+          if(i%2==1){
+            i--;
+          }
+          console.log(this.bookingOwner[i/2]);
+          return true;    
+        }
+    }
   }
 }

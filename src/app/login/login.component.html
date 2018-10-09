@@ -1,0 +1,11 @@
+<div class="form-group">
+  <mat-form-field>
+    <input name ="email" id="email" type="text" class="form-control" [(ngModel)]="email" matInput placeholder="Email">
+  </mat-form-field>
+<br>
+  <mat-form-field>
+    <input name ="password" id="password" type="password" class="form-control" [(ngModel)]="password" matInput placeholder="Password">
+  </mat-form-field>
+<br>
+<a mat-raised-button (click)=login()>Login</a>
+<a mat-raised-button routerLink='signup'>Sign Up</a>

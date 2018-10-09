@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BookingService } from '../booking.service';
 import {MatBottomSheet, MatBottomSheetRef,MAT_BOTTOM_SHEET_DATA} from '@angular/material';
+import { AuthService } from '../core/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,9 @@ import {MatBottomSheet, MatBottomSheetRef,MAT_BOTTOM_SHEET_DATA} from '@angular/
 
 export class HomeComponent implements OnInit {
 
-  constructor(private bookingService: BookingService,private bottomSheet: MatBottomSheet) { }
+  constructor(private bookingService: BookingService,
+    private bottomSheet: MatBottomSheet,
+    private authService: AuthService) { }
   bookings: any[];
   tempBookings:any[];
   test : boolean = true;
@@ -24,9 +27,8 @@ export class HomeComponent implements OnInit {
 
   // Returns the bookings of a given user and displays the active bookings
   getBookings(): void{
-  	this.bookingService.getBookingsByName('Arjun')
+  	this.bookingService.getBookingsByName(this.authService.currentUserName)
   		.subscribe(b =>{
-        this.bookings=b;
         for(var i=0;i<b.length;i++){
           b[i].endDate = new Date(b[i].endDate.seconds*1000);
           b[i].startDate = new Date(b[i].startDate.seconds*1000);
@@ -35,6 +37,7 @@ export class HomeComponent implements OnInit {
             i--;
             }
         }  
+        console.log(b.length);
         for(var j=0;j<b.length-1;j++){
           for(var i=0;i<b.length-1-j;i++){
             if(b[i].startDate.getTime()>b[i+1].startDate.getTime()){
@@ -44,6 +47,8 @@ export class HomeComponent implements OnInit {
             }  
           }
         }
+        this.bookings=b;
+
   })
   }
 

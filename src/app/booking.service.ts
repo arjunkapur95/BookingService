@@ -12,6 +12,7 @@ export class BookingService {
   }
 
   getBookingsByName(name: string): Observable<any[]>{
+    console.log(name);
     return  this.db.collection(name,ref=>ref.where('name','==',name)).valueChanges();
   }
 
