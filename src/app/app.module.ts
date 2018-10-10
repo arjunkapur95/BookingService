@@ -26,6 +26,7 @@ import {MatListModule} from '@angular/material/list';
 import { AuthService } from './core/auth.service';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { SignupComponent } from './signup/signup.component';
     BookingPageComponent,
     DeleteConfirmation,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    ResetpasswordComponent
       ],
   imports: [
     BrowserModule,

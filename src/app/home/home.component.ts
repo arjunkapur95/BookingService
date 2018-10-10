@@ -27,8 +27,10 @@ export class HomeComponent implements OnInit {
 
   // Returns the bookings of a given user and displays the active bookings
   getBookings(): void{
+    console.log("Getting bookings for "+this.authService.currentUser);
   	this.bookingService.getBookingsByName(this.authService.currentUserName)
   		.subscribe(b =>{
+        console.log(b.length);
         for(var i=0;i<b.length;i++){
           b[i].endDate = new Date(b[i].endDate.seconds*1000);
           b[i].startDate = new Date(b[i].startDate.seconds*1000);
@@ -37,7 +39,6 @@ export class HomeComponent implements OnInit {
             i--;
             }
         }  
-        console.log(b.length);
         for(var j=0;j<b.length-1;j++){
           for(var i=0;i<b.length-1-j;i++){
             if(b[i].startDate.getTime()>b[i+1].startDate.getTime()){

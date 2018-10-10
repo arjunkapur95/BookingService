@@ -57,20 +57,6 @@ export class AuthService {
       })
   }
 
-  googleLogin(){
-    const provider = new firebase.auth.GoogleAuthProvider();
-    return this.oAuthLogin(provider)
-      .then(value => {
-        console.log('Success',value),
-        this.authState=value;
-        //console.log('The given name is '+ value.additionalUserInfo.profile.given_name),
-        this.router.navigateByUrl('/profile');
-      })
-      .catch(error => {
-        console.log('Something went wrong : ', error);
-      });
-
-  }
 
   logout(){
     this.afAuth.auth.signOut().then(()=>{
@@ -83,5 +69,12 @@ export class AuthService {
     return this.afAuth.auth.signInWithPopup(provider);
   }
 
+  resetPassword(email:string){
+    return this.afAuth.auth.sendPasswordResetEmail(email)
+        .then(()=>console.log("email sent"))
+        .catch((error)=>{
+          console.log(error);
+        })
+  }
   
 }

@@ -21,6 +21,7 @@ export class BookingService {
   }
 
   deleteBooking(name:string,env: string, start: Date, end: Date){
+    console.log("delete booking -- "+name+env+start.getTime()+start.getTime());
     this.db.collection('masterList').doc(name+env+start.getTime()+start.getTime()).delete();
     this.db.collection(name).doc(name+env+start.getTime()+start.getTime()).delete();
   }
