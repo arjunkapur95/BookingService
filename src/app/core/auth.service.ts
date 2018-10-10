@@ -13,29 +13,30 @@ export class AuthService {
     });
   }
 
+  //Checks if the user is logged in
   get isLoggedIn(): boolean {
     return this.authState !== null;
   }
-  get currentUserId(): string{
-    return (this.authState !== null) ? this.authState.uid: ''
-  }
 
-  get currentUserName(): any{
+  //Returns the email of the user
+  get currentUserEmail(): any{
     // return this.authState['email']
     return this.afAuth.auth.currentUser.email;
   }
-
-  get currentUser():any{
-    return (this.authState!==null)?this.authState:null;
+  //Returns the full name of the user
+  get currentUserName():any{
+    return this.afAuth.auth.currentUser.displayName;
   }
 
 
+  // Authenticates the user with an email/password pair
   emailLogin(email:string, password: string):boolean{
     this.afAuth.auth.signInWithEmailAndPassword(email,password)
         .then(value =>{
           this.authState=value;
-          console.log('Nice, it worked!');
+          console.log(this.currentUserName);
           this.router.navigateByUrl('/home');
+        
         })
         .catch(err=>{
           console.log('Something went wrong: ',err.message);
@@ -44,31 +45,29 @@ export class AuthService {
   }
 
   
-  
-  emailSignup(email:string,password:string){
+  // Creates a new account for the email
+  emailSignup(email:string,name:string,password:string){
     this.afAuth.auth.createUserWithEmailAndPassword(email,password)
       .then(value=>{
         this.authState=value;
         console.log('Success',value);
         this.router.navigateByUrl('/home');
+        //Adds the users name to the account
+        return this.afAuth.auth.currentUser.updateProfile({"displayName":name,photoURL:null});
       })
       .catch(error=>{
         console.log('Something went wrong: ',error);
       })
   }
 
-
+  // Logs the user out
   logout(){
     this.afAuth.auth.signOut().then(()=>{
       this.router.navigate(['/']);
     });
   }
 
-  
-  private oAuthLogin(provider){
-    return this.afAuth.auth.signInWithPopup(provider);
-  }
-
+  // Sends out an email to reset the password
   resetPassword(email:string){
     return this.afAuth.auth.sendPasswordResetEmail(email)
         .then(()=>console.log("email sent"))

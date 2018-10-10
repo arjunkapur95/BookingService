@@ -35,14 +35,14 @@ export class BookingPageComponent implements OnInit{
     this.fromDate = calendar.getToday();
     this.toDate = calendar.getNext(calendar.getToday(), 'd', 1);
     this.request.environment="";
+    this.request.email=this.authService.currentUserEmail;
     this.request.name=this.authService.currentUserName;
     console.log(this.request.name);
 
    }
    
   makeBooking() {
-    if(this.request.environment==""||
-      this.request.name==""){
+    if(this.request.environment==""){
       this.submitted = false;
     } else {
       var notBooked = true;
@@ -64,7 +64,7 @@ export class BookingPageComponent implements OnInit{
                                
         if(notBooked){
           console.log("Making booking");
-          this.bookingService.makeBooking(this.request.name,this.request.environment,tempStart,tempEnd);
+          this.bookingService.makeBooking(this.request.email,this.request.name,this.request.environment,tempStart,tempEnd);
           this.temp=false;
 
         } else {

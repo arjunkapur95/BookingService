@@ -27,10 +27,11 @@ export class HomeComponent implements OnInit {
 
   // Returns the bookings of a given user and displays the active bookings
   getBookings(): void{
-    console.log("Getting bookings for "+this.authService.currentUser);
-  	this.bookingService.getBookingsByName(this.authService.currentUserName)
+    console.log("Getting bookings for "+this.authService.currentUserName);
+  	this.bookingService.getBookingsByName(this.authService.currentUserEmail)
   		.subscribe(b =>{
         console.log(b.length);
+        // Removes the bookings that have expired i.e. end date before today
         for(var i=0;i<b.length;i++){
           b[i].endDate = new Date(b[i].endDate.seconds*1000);
           b[i].startDate = new Date(b[i].startDate.seconds*1000);
@@ -39,6 +40,7 @@ export class HomeComponent implements OnInit {
             i--;
             }
         }  
+        // Sorts the bookings by startDate
         for(var j=0;j<b.length-1;j++){
           for(var i=0;i<b.length-1-j;i++){
             if(b[i].startDate.getTime()>b[i+1].startDate.getTime()){
@@ -53,11 +55,12 @@ export class HomeComponent implements OnInit {
   })
   }
 
-  delete(name:string,env:string, start:Date,end:Date){
-    this.bookingService.deleteBooking(name,env,start,end);
+  //Deletes a booking
+  delete(email:string,env:string, start:Date,end:Date){
+    this.bookingService.deleteBooking(email,env,start,end);
   }
 
-
+  // Opens the confirmation window to delete a booking
   openBottomSheet(name:string,env:string, start:Date,end:Date): void {
     var temp = name+env+start+end;
     const sheetRef = this.bottomSheet.open(DeleteConfirmation);
@@ -79,12 +82,14 @@ export class HomeComponent implements OnInit {
 })
 export class DeleteConfirmation {
   constructor(private bottomSheetRef: MatBottomSheetRef<DeleteConfirmation>) {}
-
+  // Sets delete flag to true for the home component
   deleteBooking(event: MouseEvent): void{
     this.bottomSheetRef.dismiss({delete:true});
     event.preventDefault();
    }
-     doNothing(event: MouseEvent): void{
+  
+  // Sets delete flag to false for the home component
+  doNothing(event: MouseEvent): void{
     this.bottomSheetRef.dismiss({delete:false});
     event.preventDefault();
    }

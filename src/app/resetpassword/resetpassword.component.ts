@@ -11,8 +11,8 @@ export class ResetpasswordComponent implements OnInit {
 
   ngOnInit() {
   }
+  //Sends an email to reset the password
   reset(){
-    console.log("hello");
     if(this.email!=''){
       this.authService.resetPassword(this.email);
     }

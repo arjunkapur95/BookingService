@@ -11,31 +11,37 @@ export class BookingService {
       this.db = dbTemp;
   }
 
-  getBookingsByName(name: string): Observable<any[]>{
-    console.log(name);
-    return  this.db.collection(name,ref=>ref.where('name','==',name)).valueChanges();
+  // Gets all bookings made by the given email
+  getBookingsByName(email: string): Observable<any[]>{
+    console.log(email);
+    return  this.db.collection(email,ref=>ref.where('email','==',email)).valueChanges();
   }
 
+  // Gets all booking made for the given environment
   getBookingsByEnviroment(env: string): Observable<any[]>{
     return  this.db.collection('masterList',ref=>ref.where('environment','==',env)).valueChanges();
   }
 
-  deleteBooking(name:string,env: string, start: Date, end: Date){
+  // Deletes a booking
+  deleteBooking(email:string,env: string, start: Date, end: Date){
     console.log("delete booking -- "+name+env+start.getTime()+start.getTime());
-    this.db.collection('masterList').doc(name+env+start.getTime()+start.getTime()).delete();
-    this.db.collection(name).doc(name+env+start.getTime()+start.getTime()).delete();
+    this.db.collection('masterList').doc(email+env+start.getTime()+start.getTime()).delete();
+    this.db.collection(email).doc(email+env+start.getTime()+start.getTime()).delete();
   }
-  makeBooking(name :string, env: string, start: Date, end: Date){
+
+  //Creates a booking
+  makeBooking(email :string,name:string, env: string, start: Date, end: Date){
       var data = {
       startDate: start,
       endDate: end,
-      name: name,
+      email: email,
       environment: env,
+      name: name,
     };
-    var docName = name+env+start.getTime()+start.getTime();
+    var docName = email+env+start.getTime()+start.getTime();
     var setDoc = this.db.collection('masterList').doc(docName).set(data);
 
-    var setDoc = this.db.collection(name).doc(docName).set(data);
+    var setDoc = this.db.collection(email).doc(docName).set(data);
   }
 
 

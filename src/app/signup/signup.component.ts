@@ -10,15 +10,18 @@ export class SignupComponent implements OnInit {
   password1:'';
   password2:'';
   email:'';
+  name:'';
   constructor(private authService:AuthService) { }
 
   ngOnInit() {
   }
+
+  //Creates new user account
   signUp(){
     if(this.password1!==this.password2){
       console.log("Incorrect passwords");
     } else {
-      this.authService.emailSignup(this.email,this.password1);
+      this.authService.emailSignup(this.email,this.name,this.password1);
     }
   }
 }
