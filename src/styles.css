@@ -21,3 +21,20 @@ body {
   font-size: 8pt;
   float: right;
 }
+
+
+.ngb-dp-day {
+  width: 4rem !important;
+  height: 4rem !important;
+  font-size: 300%;
+}    
+
+.ngb-dp-day >div{
+  width: 4rem !important;
+  height: 4rem !important;
+  line-height: 4rem !important;
+}
+
+.ngb-dp-weekday {
+  width: 4rem !important;
+}

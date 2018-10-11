@@ -42,7 +42,12 @@ export class BookingPageComponent implements OnInit{
     console.log(this.request.name);
 
    }
-   
+  
+  /**
+   * Checks if booking for an environment is free
+   * Creates booking if the slot is free
+   */
+
   makeBooking() {
     if(this.request.environment==""){
       this.submitted = false;
@@ -51,6 +56,7 @@ export class BookingPageComponent implements OnInit{
       const tempStart = new Date(this.fromDate.year,this.fromDate.month-1,this.fromDate.day);
       const tempEnd = new Date(this.toDate.year,this.toDate.month-1,this.toDate.day);
 
+      // Grabs list of all bookings for the selected environment and checks if the date is free
       this.bookingService.getBookingsByEnviroment(this.request.environment).subscribe(b =>{
       if(this.temp){
         for(var i=0;i<b.length;i++){
@@ -84,7 +90,9 @@ export class BookingPageComponent implements OnInit{
 
   ngOnInit() {
   }
-
+  /**
+   * Grabs list of bookings for the selected environment for display
+   */
   envChanged(){
     this.testBookings=[];
     this.bookingService.getBookingsByEnviroment(this.request.environment).subscribe(b=>{
@@ -103,7 +111,10 @@ export class BookingPageComponent implements OnInit{
 
   //Ngbcalendar stuff
 
-  
+  /**
+   * Updates values when a date is selected in the date picker
+   * @param date Selected date
+   */
   onDateSelection(date: NgbDate) {
     this.selectedOwner = null;
     if (!this.fromDate && !this.toDate) {
@@ -136,6 +147,10 @@ export class BookingPageComponent implements OnInit{
     return date.equals(this.fromDate) || date.equals(this.toDate) || this.isInside(date) || this.isHovered(date);
   }
 
+  /**
+   * Checks if a date is currently booked
+   * @param date 
+   */
   isBooked(date: NgbDate){
     var tempDate = new Date(date.year,date.month-1,date.day);
 
@@ -146,6 +161,10 @@ export class BookingPageComponent implements OnInit{
     }
   }
 
+  /**
+   * Returns the owner of the booking if a date is booked
+   * @param date 
+   */
   getBookingOwner(date: NgbDate){
   var tempDate = new Date(date.year,date.month-1,date.day);
 
@@ -163,6 +182,9 @@ export class BookingPageComponent implements OnInit{
     }
   }
 
+  /**
+   * Opens the snackbar to confirm the booking
+   */
   openSnackBar(){
     this.snackbar.openFromComponent(BookingConfirmationComponent,{
       duration:1500,

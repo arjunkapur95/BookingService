@@ -8,6 +8,8 @@ import {AuthService } from './core/auth.service';
 })
 export class AppComponent {
   title = "Booking Service"
+  loggedIn =localStorage.getItem('currentUser')
+
   constructor(private authService:AuthService){
   }
 
