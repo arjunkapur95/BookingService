@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
     private authService: AuthService) { }
   bookings: any[];
   tempBookings:any[];
-  test : boolean = true;
+  emptyBooking = true;
   today: Date;
 
   ngOnInit() {
@@ -51,6 +51,7 @@ export class HomeComponent implements OnInit {
           }
         }
         this.bookings=b;
+        if(this.bookings.length>0){this.emptyBooking=false; console.log(this.emptyBooking);}
 
   })
   }

@@ -1,6 +1,6 @@
 
-<!-- <div *ngIf="bookings.length > 0; else noList">
- -->
+<div *ngIf="emptyBooking==false; else emptyList">
+
   <ul class = "bookings">
   <li *ngFor = "let booking of bookings" style="list-style-type: none;">
   <mat-expansion-panel>
@@ -17,10 +17,8 @@
   </mat-expansion-panel>
 </li>
 </ul>  
-<!-- </div> -->
-<ng-template #noList>No list</ng-template>
-
-
+</div>
+<ng-template #emptyList> No current bookings</ng-template>
 
 
 

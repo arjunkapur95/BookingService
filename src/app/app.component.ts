@@ -10,6 +10,8 @@ export class AppComponent {
   title = "Booking Service"
   constructor(private authService:AuthService){
   }
+
+  // Logs the user out of the booking system
   logOut(){
     this.authService.logout();
   }

@@ -9,12 +9,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { HomeComponent, DeleteConfirmation } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
-import { BookingPageComponent } from './booking-page/booking-page.component';
+import { BookingPageComponent, BookingConfirmationComponent } from './booking-page/booking-page.component';
 import { FormsModule, 
          ReactiveFormsModule} from '@angular/forms';
 import { MatDatepickerModule,
          MatNativeDateModule,
-         MatInputModule} from '@angular/material';
+         MatSnackBar,
+         MatInputModule,
+         MatSnackBarModule} from '@angular/material';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireModule } from 'angularfire2';
@@ -37,7 +39,8 @@ import { ResetpasswordComponent } from './resetpassword/resetpassword.component'
     DeleteConfirmation,
     LoginComponent,
     SignupComponent,
-    ResetpasswordComponent
+    ResetpasswordComponent,
+    BookingConfirmationComponent
       ],
   imports: [
     BrowserModule,
@@ -56,12 +59,13 @@ import { ResetpasswordComponent } from './resetpassword/resetpassword.component'
     MatBottomSheetModule,
     MatListModule,
     AngularFireAuthModule,
+    MatSnackBarModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     NgbModule.forRoot()
 ],
   providers: [MatNativeDateModule,AuthService],
   bootstrap: [AppComponent],
-  entryComponents: [HomeComponent,DeleteConfirmation]
+  entryComponents: [HomeComponent,DeleteConfirmation,BookingPageComponent,BookingConfirmationComponent]
 })
 export class AppModule { }

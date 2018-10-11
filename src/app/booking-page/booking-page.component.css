@@ -14,8 +14,17 @@
   border-left: 5px solid #a94442; /* red */
 }
 
-.custom-day {
+/* ngb-datepicker{
+  width:400px!important;
+} */
 
+.datepicker-inline {
+  width: 100%;
+}
+.datepicker table {
+  width: 100%;
+}
+.custom-day {
       text-align: center;
       padding: 0.185rem 0.25rem;
       display: inline-block;

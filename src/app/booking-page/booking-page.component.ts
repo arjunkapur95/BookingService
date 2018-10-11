@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Booking } from '../booking';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { BookingService } from '../booking.service';
-import {Observable} from 'rxjs';
 import {NgbDateStruct, NgbCalendar, NgbDate} from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../core/auth.service';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-booking-page',
@@ -15,23 +13,27 @@ export class BookingPageComponent implements OnInit{
 
   validBooking = true;
   submitted = true; 
-  minDate = new Date();
   request = {} as any;
   environments=['Dev','Test','SIT','UAT','Prod'];
   today = new Date();
   temp = true;
   testBookings = [];
   bookingOwner=[];
-
+  selectedOwner:null;
+  selectedFrom:Date;
+  selectedTo:Date;
   //NgbCalendar
   model: NgbDateStruct;
   date: {year: number, month: number};
+  minDate = {year : this.today.getFullYear, month : this.today.getMonth, day:this.today.getDate};
   hoveredDate: NgbDate;
   fromDate: NgbDate;
   toDate: NgbDate;
 
-  constructor(private bookingService: BookingService, private calendar: NgbCalendar,
-    private authService:AuthService ) {
+  constructor(private bookingService: BookingService,
+     private calendar: NgbCalendar,
+    private authService:AuthService,
+    public snackbar: MatSnackBar ) {
     this.fromDate = calendar.getToday();
     this.toDate = calendar.getNext(calendar.getToday(), 'd', 1);
     this.request.environment="";
@@ -66,6 +68,7 @@ export class BookingPageComponent implements OnInit{
           console.log("Making booking");
           this.bookingService.makeBooking(this.request.email,this.request.name,this.request.environment,tempStart,tempEnd);
           this.temp=false;
+          this.openSnackBar();
 
         } else {
           console.log("Failed");
@@ -102,6 +105,7 @@ export class BookingPageComponent implements OnInit{
 
   
   onDateSelection(date: NgbDate) {
+    this.selectedOwner = null;
     if (!this.fromDate && !this.toDate) {
       this.fromDate = date;
     } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
@@ -114,6 +118,7 @@ export class BookingPageComponent implements OnInit{
       this.fromDate = date;  
     }
     this.getBookingOwner(date);
+  
   }
 
   
@@ -149,9 +154,29 @@ export class BookingPageComponent implements OnInit{
           if(i%2==1){
             i--;
           }
-          console.log(this.bookingOwner[i/2]);
+          this.selectedOwner = this.bookingOwner[i/2];
+          this.selectedFrom =this.testBookings[i];
+          this.selectedTo = this.testBookings[i+1];
+          console.log("Selected owner is "+this.selectedOwner);
           return true;    
         }
     }
   }
+
+  openSnackBar(){
+    this.snackbar.openFromComponent(BookingConfirmationComponent,{
+      duration:1500,
+    })
+  }
+
+
+
 }
+
+
+
+@Component({
+  selector: 'app-booking-confirmation',
+  templateUrl: './booking-confirmation.component.html',
+})
+export class BookingConfirmationComponent{}

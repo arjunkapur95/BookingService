@@ -10,20 +10,20 @@
       </select>
 
       <br>
-<ngb-datepicker #dp (select)="onDateSelection($event)"
+<ngb-datepicker 
+#dp (select)="onDateSelection($event)"
 [displayMonths]="1" 
 [dayTemplate]="t"
-[minDate]="minDate"
-style = "height: 400px; width: 400px"
-
 [markDisabled]="isDisabled">
 </ngb-datepicker>
+
 <ng-template #t let-date="date"
  class = "test"
+ width = "10em"
  let-focused="focused"
  let-currentMonth="currentMonth">
   <span class="custom-day"
-        [class.disabled]="date.month !== currentMonth"
+        [class.hidden]="date.month !== currentMonth"
         [class.booked]="isBooked(date)"
 
         [class.focused]="focused"
@@ -55,3 +55,11 @@ style = "height: 400px; width: 400px"
     Please enter all values.
   </div>  
   <div *ngIf="!validBooking">Booking unavaliable</div>
+
+  
+  <div *ngIf="selectedOwner != null">
+    {{selectedOwner}}
+    <br>
+    {{selectedFrom| date: 'dd/MM/yyyy'}} - {{selectedTo| date: 'dd/MM/yyyy'}}
+
+  </div>
