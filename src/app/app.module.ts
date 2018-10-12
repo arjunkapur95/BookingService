@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatCardModule } from '@angular/material/card'
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { HomeComponent, DeleteConfirmation } from './home/home.component';
@@ -60,6 +61,7 @@ import { ResetpasswordComponent } from './resetpassword/resetpassword.component'
     MatListModule,
     AngularFireAuthModule,
     MatSnackBarModule,
+    MatCardModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     NgbModule.forRoot()

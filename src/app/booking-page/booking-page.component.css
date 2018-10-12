@@ -41,3 +41,7 @@
       display: none;
     }
 
+.bookingCard{
+  max-width:400px;
+  background-color: rgb(2, 117, 216,0.5);
+}

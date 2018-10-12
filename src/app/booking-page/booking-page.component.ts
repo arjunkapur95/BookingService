@@ -3,7 +3,7 @@ import { BookingService } from '../booking.service';
 import {NgbDateStruct, NgbCalendar, NgbDate} from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../core/auth.service';
 import {MatSnackBar} from '@angular/material';
-
+import { MatCard } from '@angular/material/card';
 @Component({
   selector: 'app-booking-page',
   templateUrl: './booking-page.component.html',

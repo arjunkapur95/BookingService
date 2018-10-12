@@ -3,8 +3,7 @@
 <div class = "header-right">
   <a routerLink='home'><a mat-raised-button>Home</a></a>
   <a routerLink ='booking'><a mat-raised-button>Book</a></a>
-<a *ngIf="loggedIn == 'null'">
-<a mat-raised-button (click)="logOut()">Log Out</a></a>
+<a mat-raised-button (click)="logOut()">Log Out</a>
 </div>
 </mat-toolbar>
 <router-outlet></router-outlet>

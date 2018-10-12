@@ -56,10 +56,13 @@
   </div>  
   <div *ngIf="!validBooking">Booking unavaliable</div>
 
-  
-  <div *ngIf="selectedOwner != null">
-    {{selectedOwner}}
-    <br>
-    {{selectedFrom| date: 'dd/MM/yyyy'}} - {{selectedTo| date: 'dd/MM/yyyy'}}
 
-  </div>
+  <div *ngIf="selectedOwner != null">
+  <mat-card class="bookingCard">
+    Booked by : {{selectedOwner}}
+    <br>
+    Dates : {{selectedFrom| date: 'dd/MM/yyyy'}} - {{selectedTo| date: 'dd/MM/yyyy'}}
+
+ 
+</mat-card>
+ </div>

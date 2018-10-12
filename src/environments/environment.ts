@@ -5,12 +5,12 @@
 export const environment = {
   production: true,
   firebase:{
-  	apiKey: "AIzaSyC_Tz1f4LgvAXfbB_Gr5dvS6IMQi0BLdIM",
-    authDomain: "fir-clouddemo-a9620.firebaseapp.com",
-    databaseURL: "https://fir-clouddemo-a9620.firebaseio.com",
-    projectId: "fir-clouddemo-a9620",
-    storageBucket: "fir-clouddemo-a9620.appspot.com",
-    messagingSenderId: "277303023893"
+    apiKey: "AIzaSyC01h3TImQ_qLVAxxg-_UyaMPWaXnSkwVY",
+    authDomain: "talenvironmentbooking-a0a8d.firebaseapp.com",
+    databaseURL: "https://talenvironmentbooking-a0a8d.firebaseio.com",
+    projectId: "talenvironmentbooking-a0a8d",
+    storageBucket: "talenvironmentbooking-a0a8d.appspot.com",
+    messagingSenderId: "416406137782"
   }
 };
 
