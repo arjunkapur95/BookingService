@@ -2,12 +2,10 @@
 
      <div class ="form-group">  
 
-
-    <label for="environment">Testing Environment </label> 
-      <select class = "form-control" id="environment" required [(ngModel)]="request.environment" name = "environment" 
-      (change)="envChanged()">
-        <option *ngFor="let env of environments" [value]="env">{{env}}</option>
-      </select>
+      <mat-select class = "dropdown" id="environment" required [(ngModel)]="request.environment" name = "environment" 
+      (change)="envChanged()" placeholder="Environment">
+        <mat-option *ngFor="let env of environments" [value]="env">{{env}}</mat-option>
+      </mat-select>
 
       <br>
 <ngb-datepicker 

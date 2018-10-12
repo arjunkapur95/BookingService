@@ -10,7 +10,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { HomeComponent, DeleteConfirmation } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
-import { BookingPageComponent, BookingConfirmationComponent } from './booking-page/booking-page.component';
+import { MatSelectModule } from '@angular/material/select'
+import { BookingPageComponent,
+         BookingConfirmationComponent } from './booking-page/booking-page.component';
 import { FormsModule, 
          ReactiveFormsModule} from '@angular/forms';
 import { MatDatepickerModule,
@@ -29,7 +31,7 @@ import {MatListModule} from '@angular/material/list';
 import { AuthService } from './core/auth.service';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
-import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
+import { ResetpasswordComponent ,ResetEmailComponent} from './resetpassword/resetpassword.component';
 
 
 @NgModule({
@@ -41,7 +43,8 @@ import { ResetpasswordComponent } from './resetpassword/resetpassword.component'
     LoginComponent,
     SignupComponent,
     ResetpasswordComponent,
-    BookingConfirmationComponent
+    BookingConfirmationComponent,
+    ResetEmailComponent
       ],
   imports: [
     BrowserModule,
@@ -62,12 +65,19 @@ import { ResetpasswordComponent } from './resetpassword/resetpassword.component'
     AngularFireAuthModule,
     MatSnackBarModule,
     MatCardModule,
+    MatSelectModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     NgbModule.forRoot()
 ],
   providers: [MatNativeDateModule,AuthService],
   bootstrap: [AppComponent],
-  entryComponents: [HomeComponent,DeleteConfirmation,BookingPageComponent,BookingConfirmationComponent]
+  entryComponents: [HomeComponent,
+    DeleteConfirmation,
+    BookingPageComponent,
+    BookingConfirmationComponent,
+    ResetpasswordComponent,
+    ResetEmailComponent
+    ]
 })
 export class AppModule { }

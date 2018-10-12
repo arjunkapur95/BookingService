@@ -16,12 +16,12 @@ export class BookingPageComponent implements OnInit{
   request = {} as any;
   environments=['Dev','Test','SIT','UAT','Prod'];
   today = new Date();
-  temp = true;
   testBookings = [];
   bookingOwner=[];
   selectedOwner:null;
   selectedFrom:Date;
   selectedTo:Date;
+
   //NgbCalendar
   model: NgbDateStruct;
   date: {year: number, month: number};
@@ -56,37 +56,33 @@ export class BookingPageComponent implements OnInit{
       const tempStart = new Date(this.fromDate.year,this.fromDate.month-1,this.fromDate.day);
       const tempEnd = new Date(this.toDate.year,this.toDate.month-1,this.toDate.day);
 
-      // Grabs list of all bookings for the selected environment and checks if the date is free
-      this.bookingService.getBookingsByEnviroment(this.request.environment).subscribe(b =>{
-      if(this.temp){
-        for(var i=0;i<b.length;i++){
-        const start = new Date(b[i].startDate.seconds*1000);
-        const end = new Date(b[i].endDate.seconds*1000);
-        if(tempStart.getTime()>=start.getTime() && tempStart.getTime()<=end.getTime() 
-        || tempEnd.getTime()>=start.getTime() && tempEnd.getTime()<=end.getTime()
-        ||tempStart.getTime()<=start.getTime() && tempEnd.getTime()>=start.getTime() ){
-          notBooked = false;
-          i=b.length;
+
+      for(var i=0;i<this.testBookings.length;i=i+2){
+        if(tempStart.getTime()>=this.testBookings[i].getTime()
+          && tempStart.getTime()<=this.testBookings[i+1].getTime() 
+          || tempEnd.getTime()>=this.testBookings[i].getTime() 
+          && tempEnd.getTime()<=this.testBookings[i+1].getTime()
+          ||tempStart.getTime()<=this.testBookings[i].getTime()
+          && tempEnd.getTime()>=this.testBookings[i+1].getTime()){
+            notBooked = false;
           }
         }
                                
         if(notBooked){
           console.log("Making booking");
           this.bookingService.makeBooking(this.request.email,this.request.name,this.request.environment,tempStart,tempEnd);
-          this.temp=false;
           this.openSnackBar();
 
         } else {
           console.log("Failed");
-          this.temp=true;
           this.validBooking=false;
         }
       }
-    })
+
 
   }
-  }  
-
+  
+ 
 
   ngOnInit() {
   }
@@ -123,7 +119,6 @@ export class BookingPageComponent implements OnInit{
       this.toDate = date;
     } else if (this.fromDate && !this.toDate && date.equals(this.fromDate)){
       this.toDate = date; 
-      console.log("test");
     } else {
       this.toDate = null;
       this.fromDate = date;  
@@ -159,6 +154,7 @@ export class BookingPageComponent implements OnInit{
           return true;
         }
     }
+    return false;
   }
 
   /**
@@ -169,14 +165,14 @@ export class BookingPageComponent implements OnInit{
   var tempDate = new Date(date.year,date.month-1,date.day);
 
     for(var i=0;i<this.testBookings.length;i=i+2){
-        if(tempDate.getTime()>=this.testBookings[i].getTime()&&tempDate.getTime()<=this.testBookings[i+1].getTime()){
+        if(tempDate.getTime()>=this.testBookings[i].getTime()
+        &&tempDate.getTime()<=this.testBookings[i+1].getTime()){
           if(i%2==1){
             i--;
           }
           this.selectedOwner = this.bookingOwner[i/2];
           this.selectedFrom =this.testBookings[i];
           this.selectedTo = this.testBookings[i+1];
-          console.log("Selected owner is "+this.selectedOwner);
           return true;    
         }
     }
