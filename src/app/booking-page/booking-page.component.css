@@ -32,6 +32,19 @@
     .custom-day.booked{
       background-color: red;
     }
+    .custom-day.pencil{
+      background: linear-gradient(to bottom,   
+      white 80%,
+      #33ccff 20%,
+      #33ccff 100%);
+    }
+    .custom-day.bookedPencil{
+      background: linear-gradient(to bottom,   
+      red 0%,
+      red 80%,
+      #33ccff 20%,
+      #33ccff 100%);
+    }
     .custom-day.range, .custom-day:hover {
       background-color: rgb(2, 117, 216);
       color: white;
@@ -42,6 +55,7 @@
     .hidden {
       display: none;
     }
+
 
 .bookingCard{
   max-width:400px;

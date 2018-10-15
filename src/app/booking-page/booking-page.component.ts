@@ -18,9 +18,18 @@ export class BookingPageComponent implements OnInit{
   today = new Date();
   testBookings = [];
   bookingOwner=[];
+  bookingEmails=[];
+  bookingStatus=[];
+  booked = false;
+  selectedStatus:string;
   selectedOwner:null;
   selectedFrom:Date;
   selectedTo:Date;
+  pencilledStatus:string;
+  pencilledOwner:null;
+  pencilledFrom:Date;
+  pencilledTo:Date;
+
 
   //NgbCalendar
   model: NgbDateStruct;
@@ -55,7 +64,7 @@ export class BookingPageComponent implements OnInit{
       var notBooked = true;
       const tempStart = new Date(this.fromDate.year,this.fromDate.month-1,this.fromDate.day);
       const tempEnd = new Date(this.toDate.year,this.toDate.month-1,this.toDate.day);
-
+      var bookingOwner = [];
 
       for(var i=0;i<this.testBookings.length;i=i+2){
         if(tempStart.getTime()>=this.testBookings[i].getTime()
@@ -64,15 +73,26 @@ export class BookingPageComponent implements OnInit{
           && tempEnd.getTime()<=this.testBookings[i+1].getTime()
           ||tempStart.getTime()<=this.testBookings[i].getTime()
           && tempEnd.getTime()>=this.testBookings[i+1].getTime()){
-            notBooked = false;
+            bookingOwner.push(this.bookingEmails[i/2]);
+            console.log(this.bookingStatus[i/2]+'...............');
+            if(this.bookingStatus[i/2]=='pencil' ||
+            this.bookingStatus[i/2]=='pencil pending'){
+              console.log("Hello");
+              notBooked = false;
+            }
           }
         }
                                
-        if(notBooked){
-          console.log("Making booking");
-          this.bookingService.makeBooking(this.request.email,this.request.name,this.request.environment,tempStart,tempEnd);
-          this.openSnackBar();
-
+        if (bookingOwner.length>0 && notBooked){
+          this.bookingService.makePencilBooking(this.request.email,this.request.name,
+            this.request.environment,tempStart,tempEnd,bookingOwner);
+            console.log("Making Pencil");
+            this.openSnackBar();
+        } else if(notBooked){
+            console.log("Making booking");
+            this.bookingService.makeBooking(this.request.email,this.request.name,
+            this.request.environment,tempStart,tempEnd);
+            this.openSnackBar();
         } else {
           console.log("Failed");
           this.validBooking=false;
@@ -91,6 +111,9 @@ export class BookingPageComponent implements OnInit{
    */
   envChanged(){
     this.testBookings=[];
+    this.bookingOwner=[];
+    this.bookingEmails=[];
+    this.bookingStatus=[];
     this.bookingService.getBookingsByEnviroment(this.request.environment).subscribe(b=>{
       for(var i=0;i<b.length;i++){
         const start = new Date(b[i].startDate.seconds*1000);
@@ -100,6 +123,8 @@ export class BookingPageComponent implements OnInit{
         this.testBookings.push(start);
         this.testBookings.push(end);
         this.bookingOwner.push(b[i].name);
+        this.bookingEmails.push(b[i].email);
+        this.bookingStatus.push(b[i].type);
         }
     });  
   }
@@ -113,6 +138,8 @@ export class BookingPageComponent implements OnInit{
    */
   onDateSelection(date: NgbDate) {
     this.selectedOwner = null;
+    this.pencilledOwner=null;
+    this.booked=false;
     if (!this.fromDate && !this.toDate) {
       this.fromDate = date;
     } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
@@ -124,7 +151,6 @@ export class BookingPageComponent implements OnInit{
       this.fromDate = date;  
     }
     this.getBookingOwner(date);
-  
   }
 
   
@@ -148,14 +174,33 @@ export class BookingPageComponent implements OnInit{
    */
   isBooked(date: NgbDate){
     var tempDate = new Date(date.year,date.month-1,date.day);
-
     for(var i=0;i<this.testBookings.length;i=i+2){
-        if(tempDate.getTime()>=this.testBookings[i].getTime()&&tempDate.getTime()<=this.testBookings[i+1].getTime()){
+        if(tempDate.getTime()>=this.testBookings[i].getTime()
+        &&tempDate.getTime()<=this.testBookings[i+1].getTime()
+        && this.bookingStatus[i/2]=='standard'){
           return true;
         }
     }
     return false;
   }
+
+  isPencilled(date: NgbDate){
+    var tempDate = new Date(date.year,date.month-1,date.day);
+    for(var i=0;i<this.testBookings.length;i=i+2){
+        if(tempDate.getTime()>=this.testBookings[i].getTime()
+        &&tempDate.getTime()<=this.testBookings[i+1].getTime()
+        &&( this.bookingStatus[i/2]=='pencil'
+        ||this.bookingStatus[i/2]=='pencil pending')){
+          return true;
+        }
+    }
+    return false;
+  }
+  isBookedAndPencilled(date: NgbDate){
+    if(this.isBooked(date)&&this.isPencilled(date)){
+      return true;
+    }
+  }  
 
   /**
    * Returns the owner of the booking if a date is booked
@@ -167,13 +212,21 @@ export class BookingPageComponent implements OnInit{
     for(var i=0;i<this.testBookings.length;i=i+2){
         if(tempDate.getTime()>=this.testBookings[i].getTime()
         &&tempDate.getTime()<=this.testBookings[i+1].getTime()){
-          if(i%2==1){
-            i--;
-          }
+          if(this.bookingStatus[i/2]=='pencil'||this.bookingStatus[i/2]=='pencil pending'){
+            console.log("Booking owner is ........"+this.bookingOwner[i/2]);
+            this.pencilledOwner = this.bookingOwner[i/2];          
+            this.pencilledFrom =this.testBookings[i];
+            this.pencilledTo = this.testBookings[i+1];
+            this.pencilledStatus = this.bookingStatus[i/2];
+            console.log("Booking owner is ........"+this.pencilledOwner);
+
+          } else {
           this.selectedOwner = this.bookingOwner[i/2];
           this.selectedFrom =this.testBookings[i];
           this.selectedTo = this.testBookings[i+1];
-          return true;    
+          this.selectedStatus = this.bookingStatus[i/2];
+          }
+          this.booked=true;
         }
     }
   }

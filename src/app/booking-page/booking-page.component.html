@@ -3,7 +3,7 @@
      <div class ="form-group">  
 
       <mat-select class = "dropdown" id="environment" required [(ngModel)]="request.environment" name = "environment" 
-      (change)="envChanged()" placeholder="Environment">
+      (selectionChange)="envChanged()" placeholder="Environment">
         <mat-option *ngFor="let env of environments" [value]="env">{{env}}</mat-option>
       </mat-select>
 
@@ -19,14 +19,17 @@
  class = "test"
  width = "10em"
  let-focused="focused"
- let-currentMonth="currentMonth">
+ let-currentMonth="currentMonth"
+ let-currentDate="currentDate">
   <span class="custom-day"
         [class.hidden]="date.month !== currentMonth"
+        [class.faded]="isHovered(date) || isInside(date)"
         [class.booked]="isBooked(date)"
-
+        [class.pencil]="isPencilled(date)"
         [class.focused]="focused"
         [class.range]="isRange(date)"
-        [class.faded]="isHovered(date) || isInside(date)"
+
+        [class.bookedPencil]="isBookedAndPencilled(date)"
         (mouseenter)="hoveredDate = date"
 
         (mouseleave)="hoveredDate = null">
@@ -55,12 +58,20 @@
   <div *ngIf="!validBooking">Booking unavaliable</div>
 
 
+<div *ngIf="booked">
+<mat-card class="bookingCard">
   <div *ngIf="selectedOwner != null">
-  <mat-card class="bookingCard">
     Booked by : {{selectedOwner}}
     <br>
     Dates : {{selectedFrom| date: 'dd/MM/yyyy'}} - {{selectedTo| date: 'dd/MM/yyyy'}}
-
- 
+    <br>
+  </div>
+  <div *ngIf="pencilledOwner != null">
+      Pencilled by : {{pencilledOwner}}
+      <br>
+      Dates : {{pencilledFrom| date: 'dd/MM/yyyy'}} - {{pencilledTo| date: 'dd/MM/yyyy'}}
+      <br>
+      Status : {{pencilledStatus}}
+    </div>
 </mat-card>
- </div>
+</div>
