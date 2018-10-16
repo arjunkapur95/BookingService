@@ -47,7 +47,8 @@
     }
     .custom-day.range, .custom-day:hover {
       background-color: rgb(2, 117, 216);
-      color: white;
+	  background: rgb(2, 117, 216);
+      color: pink;
     }
     .custom-day.faded {
       background-color: rgba(2, 117, 216, 0.5);

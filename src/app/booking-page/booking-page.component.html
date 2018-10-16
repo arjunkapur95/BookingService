@@ -20,7 +20,7 @@
 						
 		<span class="custom-day"
 			[class.hidden]="date.month !== currentMonth"
-			[class.faded]="isHovered(date) || isInside(date)"
+			[class.faded]="isHovered(date)"
 			[class.booked]="isBooked(date)"
 			[class.pencil]="isPencilled(date)"
 			[class.focused]="focused"
