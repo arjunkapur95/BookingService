@@ -18,23 +18,23 @@ body {
 }
 
 .version-info {
-  font-size: 8pt;
+  font-size: 11pt;
   float: right;
 }
 
 
 .ngb-dp-day {
-  width: 4rem !important;
-  height: 4rem !important;
+  width: 9rem !important;
+  height: 7rem !important;
   font-size: 200%;
 }    
 
 .ngb-dp-day >div{
-  width: 4rem !important;
-  height: 4rem !important;
-  line-height: 4rem !important;
+  width: 10rem !important;
+  height: 9rem !important;
+  line-height: 10rem !important;
 }
 
 .ngb-dp-weekday {
-  width: 4rem !important;
+  width: 9rem !important;
 }

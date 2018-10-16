@@ -5,12 +5,11 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatCardModule } from '@angular/material/card'
-import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { HomeComponent, DeleteConfirmation } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
-import { MatSelectModule } from '@angular/material/select'
+import { MatSelectModule } from '@angular/material/select';
 import { BookingPageComponent,
          BookingConfirmationComponent } from './booking-page/booking-page.component';
 import { FormsModule, 
@@ -26,13 +25,14 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from '../environments/environment'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
-import {MatListModule} from '@angular/material/list';
+import { MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import { MatListModule} from '@angular/material/list';
 import { AuthService } from './core/auth.service';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { ResetpasswordComponent ,ResetEmailComponent} from './resetpassword/resetpassword.component';
-
+import { FlexLayoutModule} from '@angular/flex-layout';
+import { MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -68,7 +68,9 @@ import { ResetpasswordComponent ,ResetEmailComponent} from './resetpassword/rese
     MatSelectModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+	FlexLayoutModule,
+	MatButtonModule
 ],
   providers: [MatNativeDateModule,AuthService],
   bootstrap: [AppComponent],
